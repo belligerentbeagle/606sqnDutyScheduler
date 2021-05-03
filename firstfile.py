@@ -4,7 +4,7 @@ from openpyxl import Workbook
 workbook = Workbook()
 sheet = workbook.active
 sheet["A1"] = "TIME/NAME"
-storagelocation = "/Users/weiyushit/OneDrive/Github stuff/teststreamlit/test.xlsx"
+storagelocation = "/Users/weiyushit/OneDrive/Github stuff/teststreamlit/test.xlsx" #change to "/home/ec2-user/teststreamlit/detailing.xlsx" for aws
 
 
 print("hello world")
@@ -23,7 +23,8 @@ platoon = st.sidebar.selectbox(
     ("Platoon 1","Platoon 2"),
 )
 
-if platoon == "Platoon 2":
+
+if platoon == "Platoon 1":
     batch0 = ["Aaron","Weijie"] #Max 
     batch1 = ["Jack", "Ivan"]
     batch2 = ["Junyang", "Yicong", "Jowell", "Jonathan","Alvin"] 
@@ -40,8 +41,7 @@ else:
     acf = ["Luke", "Ryan", "Stanley", "Yash"]
     batch4 = ["Rayshawn",]
     batch5 = ["Denver", "Praveen"]
-    stayout = ["Kaijie"]
-
+    stayout =["test"]
 
 team = batch0 + batch1 + batch2 + batch3 + batch4 + batch5 + stayout + ["COUNTER"]
 present = []
@@ -70,7 +70,6 @@ sheet["A1"] = "TIME/NAME"
 alphabets = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
 
 #initialise
-
 def assigning(row, duty):
     randomperson = random.randint(2, peoplepresent+1)
     if row == 2: #if first row just put only
@@ -246,15 +245,16 @@ hourscounter()
 print("Done.")
 workbook.save(filename=storagelocation)
 
-
-
+st.button("Rerun")
+if st.button("Export this"):
+    st.write("Exporting...")
 
 ###
 #displaying excel sheet converted to pandas
 import pandas as pd
 
 if True:
-    df = pd.read_excel("/Users/weiyushit/OneDrive/Github stuff/teststreamlit/test.xlsx")
+    df = pd.read_excel(storagelocation)
     st.dataframe(df.fillna(" "))
     
     #st.table(df.fillna(" "))
