@@ -11,6 +11,8 @@ print("hello world")
 st.text('This is some text.')
 st.subheader('This is a subheader')
 
+#defaults
+add_duty = []
 
 noofdays = int(st.sidebar.slider("Days of mount", min_value=2, max_value=3, value=2, step=1))
 if noofdays == 3:
@@ -19,29 +21,29 @@ else:
     status = "weekday"
 
 platoon = st.sidebar.selectbox(
-    "Mounting Platoon",
-    ("Platoon 1","Platoon 2"),
+    "Mounting Team",
+    ("Team A","Team B"),
 )
 
 
-if platoon == "Platoon 1":
-    batch0 = ["Aaron","Weijie"] #Max 
-    batch1 = ["Jack", "Ivan"]
-    batch2 = ["Junyang", "Yicong", "Jowell", "Jonathan","Alvin"] 
-    batch3 = ["Bala", "Jinming", "Eugene", "Jian Yong"]
-    acf = ["Luke", "Ryan", "Stanley", "Yash"]
-    batch4 = ["Rayshawn",]
-    batch5 = ["Denver", "Praveen"]
-    stayout = ["Kaijie"]
+if platoon == "Team A":
+    batch0 = ["DERRICK","KEI FUNG","DYLAN PANG","BRANSON LIM","ANDRE",] #Max 
+    batch1 = ["SHAO CONG","WINSTON","AMOS","HAN TAT",]
+    batch2 = [] 
+    batch3 = []
+    acf = ["MING SHENG","ZIHE","ZI KANG","BENJAMIN"] #eg force
+    batch4 = []
+    batch5 = []
+    stayout = []
 else:
-    batch0 = ["PLatoon 1","pl"] #Max 
-    batch1 = ["pl1", "meow"]
-    batch2 = ["Junyang", "Yicong", "Jowell", "Jonathan","Alvin"] 
-    batch3 = ["Bala", "Jinming", "Eugene", "Jian Yong"]
-    acf = ["Luke", "Ryan", "Stanley", "Yash"]
-    batch4 = ["Rayshawn",]
-    batch5 = ["Denver", "Praveen"]
-    stayout =["test"]
+    batch0 = ["JOWELL","CLARENCE",] #Max 
+    batch1 = ["RAKESH","GAVIN","YONG CHENG","KOK CHUN","WEI HAN","BING HUI","CHEE SOON"]
+    batch2 = [] 
+    batch3 = []
+    acf = ["YING HAO","YASHWIT","RYAN CHIANG","ALVIN SEAH",] #eg force
+    batch4 = []
+    batch5 = []
+    stayout = []
 
 team = batch0 + batch1 + batch2 + batch3 + batch4 + batch5 + stayout + ["COUNTER"]
 present = []
@@ -155,7 +157,7 @@ def process_stayout_first():
         if status == "weekend":
             if i >= 5 and i <= totalrows-3:
                 sheet.cell(row=i, column=stayoutcolumn).value = "STAYOUT"
-process_stayout_first()
+#process_stayout_first()
 
 # # # #def leaveandoffs(who,whichdays):
 # # # for name in team:
@@ -173,10 +175,20 @@ def colourthisrow(row,colour):
         cell = sheet[cellcoordinate]
         cell.fill = PatternFill(start_color=colour, end_color=colour, fill_type = "solid")
 
+#if heightened measure add gpmg and footprowl
+checkheightened = st.sidebar.checkbox("Heightened")
+def heightenedverifier():
+    if checkheightened:
+        #add GPMG and Foot Prowl
+        add_duty = ["GPMG","FP"]
+        
+
+heightenedverifier()
 
 #initialise duties
-non_peak = ["TG", "18", "XSVC", "XCBT", "CCTV", "CCTV2", "VACS"]
-peak = ["TG", "18", "XSVC", "XCBT", "CCTV", "CCTV2", "VACS","TG2", "XSVC2", "CHKR"]
+
+non_peak = ["SSVC","SCBT","XCBT","XSVC"]
+peak = ["SSVC","SCBT","XCBT","XSVC","GPMG"] + add_duty
 silent = [e for e in non_peak if e not in ('XSVC', 'XCBT')]
 
 #assign dutytypes to hours
@@ -236,7 +248,6 @@ elif status == "weekend":
                 for duty in silent:
                     assigning(i,duty)
         sheet.cell(row=i, column= peoplepresent+2).value = countcellstoleft(i)
-
 
 
 
