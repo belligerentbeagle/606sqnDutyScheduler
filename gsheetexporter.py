@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
-import re, urllib, urllib2
+import re, urllib
+import urllib.request as urllib2
 
 class Spreadsheet(object):
 	def __init__(self, key):
@@ -21,7 +22,7 @@ class Client(object):
 			"accountType": "HOSTED_OR_GOOGLE",
 			"source": source
 		}
-		req = urllib2.Request(url, urllib.urlencode(params))
+		req = urllib2.Request(url, urllib.parse.urlencode(params).encode("utf-8"))
 		return re.findall(r"Auth=(.*)", urllib2.urlopen(req).read())[0]
 	
 	def get_auth_token(self):
