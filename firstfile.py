@@ -131,14 +131,15 @@ def xinjiaolaojiaosystem():
 
 #set up time
 row = 2
-timedefault = ["1100-1300", "1300-1500","1500-1700", "1700-1900","1900-2100", "2100-2300", "2300-0100","0100-0300", "0300-0500","0500-0700","0700-0900","0900-1100"]
+timedefault = ["1100","1200","1300","1400","1500","1600","1700","1800","1900","2000","2100","2200","2300","0000","0100","0200","0300","0400","0500","0600","0700","0800","0900","1000"]
+# timedefault = ["1100-1300", "1300-1500","1500-1700", "1700-1900","1900-2100", "2100-2300", "2300-0100","0100-0300", "0300-0500","0500-0700","0700-0900","0900-1100"]
 times = noofdays * timedefault
 for timeblock in times:
     sheet.cell(row = row, column = 1).value = timeblock
     row += 1
 totalrows = row
 hoursrow = totalrows #dunnid to add one more because final interation of timeblock already adds 1 more.
-sheet.cell(row = hoursrow, column = 1).value = "TOTAL HOURS"
+sheet.cell(row = hoursrow, column = 1).value = "TOTAL"
 
 #set up humans, minimum 19
 team = present
@@ -191,31 +192,35 @@ non_peak = ["SSVC","SCBT","XCBT","XSVC"]
 peak = ["SSVC","SCBT","XCBT","XSVC","GPMG"] + add_duty
 silent = [e for e in non_peak if e not in ('XSVC', 'XCBT')]
 
+non_peak_hours = ["1100","1200","1300","1400","1500","1600","1700","1800","0700","0800","0900","1000"]
+peak_hours = ["0700","0800","1600","1700","1800"]
+silent_hours = [e for e in timedefault if e not in (non_peak_hours,peak_hours)]
+print(silent_hours)
 #assign dutytypes to hours
 #nonpeak = 7, peak = 10, silent = 5
 row = 2 #reset row again
 print("planning....")
 
+
 if status == "weekday":
     for i in range(2, totalrows):
-        if i%2 == 0: #iterates across even rows only so that we assign duty every 4 hours
-            if (sheet.cell(row= i, column = 1).value in ["1100-1300", "1300-1500","1500-1700","1700-1900","0900-1100"]): #if non_peak on normal hours
-                for duty in non_peak:
-                    assigning(i, duty)
-                #if cell is empty (leave, off, MA etc) then put into random
-            if (sheet.cell(row= i, column = 1).value in ["0700-0900"]):
-                colourthisrow(i,"ff0000")
-                for duty in peak:
-                    assigningpeak(i,duty)
-                counter = 1 #function below for adding non-peak for 0900-1100
-                for duty in non_peak:
-                    assigningafterpeak(counter,duty)
-            if (sheet.cell(row= i, column = 1).value in ["1900-2100","2100-2300","2300-0100","0100-0300","0300-0500","0500-0700"]):
-                colourthisrow(i,"808080")
-                colourthisrow(i+1,"808080")
-                for duty in silent:
-                    assigning(i,duty)
-        sheet.cell(row=i, column= peoplepresent+2).value = countcellstoleft(i)
+        if (sheet.cell(row= i, column = 1).value in non_peak_hours ): #if non_peak on normal hours
+            for duty in non_peak:
+                assigning(i, duty)
+            #if cell is empty (leave, off, MA etc) then put into random
+        if (sheet.cell(row= i, column = 1).value in ["0700-0900"]):
+            colourthisrow(i,"ff0000")
+            for duty in peak:
+                assigningpeak(i,duty)
+            counter = 1 #function below for adding non-peak for 0900-1100
+            for duty in non_peak:
+                assigningafterpeak(counter,duty)
+        if (sheet.cell(row= i, column = 1).value in ["1900-2100","2100-2300","2300-0100","0100-0300","0300-0500","0500-0700"]):
+            colourthisrow(i,"808080")
+            colourthisrow(i+1,"808080")
+            for duty in silent:
+                assigning(i,duty)
+    sheet.cell(row=i, column= peoplepresent+2).value = countcellstoleft(i)
 elif status == "weekend":
     for i in range(2, totalrows):
         if i%2 == 0: #iterates across even rows only so that we assign duty every 4 hours
