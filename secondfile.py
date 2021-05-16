@@ -4,7 +4,7 @@ from openpyxl import Workbook
 workbook = Workbook()
 sheet = workbook.active
 sheet["A1"] = "TIME/NAME"
-storagelocation = "/Users/weiyushit/OneDrive/Github stuff/teststreamlit/test.xlsx" #change to "/home/ec2-user/teststreamlit/detailing.xlsx" for aws
+storagelocation = "/Users/weiyushit/OneDrive/Github stuff/teststreamlit/test.xls" #change to "/home/ec2-user/teststreamlit/detailing.xlsx" for aws
 
 import base64
 import os
@@ -74,7 +74,6 @@ def download_link(object_to_download, download_filename, button_text, pickle_it=
                 border-style: solid;
                 border-color: rgb(230, 234, 241);
                 border-image: initial;
-
             }} 
             #{button_id}:hover {{
                 border-color: rgb(246, 51, 102);
@@ -86,9 +85,7 @@ def download_link(object_to_download, download_filename, button_text, pickle_it=
                 color: white;
                 }}
         </style> """
-
     dl_link = custom_css + f'<a download="{download_filename}" id="{button_id}" href="data:file/txt;base64,{b64}">{button_text}</a><br></br>'
-
     return dl_link
 
 
@@ -112,7 +109,7 @@ platoon = st.sidebar.selectbox(
 
 
 if platoon == "Shift 1":
-    batch0 = ["DERRICK","KEI FUNG","DYLAN PANG","BRANSON LIM","ANDRE",] #Max 
+    batch0 = ["DERRICK","KEI FUNG","DYLAN PANG","BRANSON LIM","ANDRE","tom","dick","harry"] 
     batch1 = ["SHAO CONG","WINSTON","AMOS","HAN TAT","MING SHENG","ZIHE","ZI KANG","BENJAMIN"]
     batch2 = [] 
     batch3 = []
@@ -121,7 +118,7 @@ if platoon == "Shift 1":
     batch5 = []
     stayout = []
 else:
-    batch0 = ["JOWELL","CLARENCE",] #Max 
+    batch0 = ["JOWELL","CLARENCE","tom","dick","harry"] 
     batch1 = ["RAKESH","GAVIN","YONG CHENG","KOK CHUN","WEI HAN","BING HUI","CHEE SOON","YING HAO","YASHWIT","RYAN CHIANG","ALVIN SEAH",]
     batch2 = [] 
     batch3 = []
@@ -131,10 +128,10 @@ else:
     stayout = []
 
 team = batch0 + batch1 + batch2 + batch3 + batch4 + batch5 + stayout + ["COUNTER"]
-present = []
+present = [] 
 for name in team:
     if st.sidebar.checkbox(name,value=True):
-        present.append(name)
+        present.append(name) #present now contains "COUNTER"
 
 
 ###
@@ -158,17 +155,18 @@ alphabets = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q"
 
 #initialise
 def assigning(row, duty):
-    randomperson = random.randint(2, peoplepresent+1)
+    randomperson = random.randint(2, peoplepresent+1) #+1 to this value
     if row == 2: #if first row just put only
         if sheet.cell(row = row, column = randomperson).value == None:
             sheet.cell(row = row, column = randomperson).value = duty
-            sheet.cell(row = row + 1, column = randomperson).value = duty #second half of duty
         else:
             assigning(row, duty)
     else: #ensures they have rest before duty.
-        if sheet.cell(row = row, column = randomperson).value == None and sheet.cell(row = row-1, column = randomperson).value == None:
+        if sheet.cell(row = row, column = randomperson).value == None and sheet.cell(row = row-2, column = randomperson).value == None:
             sheet.cell(row = row, column = randomperson).value = duty
-            sheet.cell(row = row + 1, column = randomperson).value = duty #second half of duty
+            sheet.cell(row = row+1, column = randomperson).value = duty
+            sheet.cell(row = row+2, column = randomperson).value = duty
+            sheet.cell(row = row+3, column = randomperson).value = duty
         else:
             assigning(row, duty)
 
@@ -228,9 +226,10 @@ sheet.cell(row = hoursrow, column = 1).value = "TOTAL"
 
 #set up humans, minimum 19
 team = present
-peoplepresent = len(present)-1
-print("Number of people present is {} excluding 4 going to copper".format(str(peoplepresent))) 
+peoplepresent = len(present)-1 #REMOVE 1 CUZ OF COUNTER
+print("Number of people present is {}".format(str(peoplepresent))) 
 column = 2
+#set up column headers
 for name in team:
     sheet.cell(row = 1, column = column).value = name
     column += 1
@@ -279,7 +278,7 @@ silent = [e for e in non_peak if e not in ('XSVC', 'XCBT')]
 
 non_peak_hours = ["1100","1200","1300","1400","1500","1600","1700","1800","0700","0800","0900","1000"]
 peak_hours = ["0700","0800","1600","1700","1800"]
-silent_hours = [""]
+silent_hours = ["1900","2000","2100","2200","2300","0000","0100","0200","0300","0400","0500","0600"]
 #assign dutytypes to hours
 #nonpeak = 7, peak = 10, silent = 5
 row = 2 #reset row again
@@ -288,18 +287,19 @@ print("planning....")
 
 if status == "weekday":
     for i in range(2, totalrows):
-        if (sheet.cell(row= i, column = 1).value in non_peak_hours ): #if non_peak on normal hours
+        if (sheet.cell(row= i, column = 1).value in ["1100","1500"]): #if non_peak on normal hours
             for duty in non_peak:
                 assigning(i, duty)
             #if cell is empty (leave, off, MA etc) then put into random
-        if (sheet.cell(row= i, column = 1).value in peak_hours):
+        if (sheet.cell(row= i, column = 1).value in "0700"): #peakhour
             colourthisrow(i,"ff0000")
             for duty in peak:
                 assigningpeak(i,duty)
+                assigningpeak(i+1, duty)
             counter = 1 #function below for adding non-peak for 0900-1100
             for duty in non_peak:
                 assigningafterpeak(counter,duty)
-        if (sheet.cell(row= i, column = 1).value in ["1900-2100","2100-2300","2300-0100","0100-0300","0300-0500","0500-0700"]):
+        if (sheet.cell(row= i, column = 1).value in ["1900","2300","0300"]):
             colourthisrow(i,"808080")
             colourthisrow(i+1,"808080")
             for duty in silent:
@@ -322,7 +322,7 @@ elif status == "weekend":
                 if i>=35:
                     colourthisrow(i,"ff0000")
                     for duty in peak:
-                        assigningpeak(i,duty)
+                        assigning(i,duty)
                     counter = 1 #function below for adding non-peak for 0900-1100
                     for duty in non_peak:
                         assigningafterpeak(counter,duty)
