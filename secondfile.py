@@ -89,7 +89,6 @@ def download_link(object_to_download, download_filename, button_text, pickle_it=
     return dl_link
 
 
-print("hello world")
 st.text('This is some text.')
 st.subheader('This is a subheader')
 
@@ -167,7 +166,6 @@ def assigning(row, duty):
 def assigningpeak(row, duty): #4hourblock 1 peak 1 non-peak
     randomperson = random.randint(2, peoplepresent)
     if sheet.cell(row = row, column = randomperson).value == None and sheet.cell(row = row-1, column = randomperson).value == None and (duty != "GPMG"):
-        print("peak duty contains " + duty + "not recognised GPMG")
         sheet.cell(row = row, column = randomperson).value = duty
         sheet.cell(row = row+1, column = randomperson).value = duty
         sheet.cell(row = row+2, column = randomperson).value = duty
@@ -175,7 +173,6 @@ def assigningpeak(row, duty): #4hourblock 1 peak 1 non-peak
         colourthisrow(i,"ff0000")
         colourthisrow(i+1,"ff0000")
     elif (sheet.cell(row = row, column = randomperson).value == None and sheet.cell(row = row-2, column = randomperson).value == None) and (duty == "GPMG"):
-        print("peak duty contains " + duty + " recognised GPMG")
         sheet.cell(row = row, column = randomperson).value = duty
         sheet.cell(row = row+1, column = randomperson).value = duty
         colourthisrow(i,"ff0000")
@@ -192,18 +189,18 @@ def assigningafterpeak(counter,duty):
 
 def countcellstoleft(row): #counter
     answer = 0
-    for i in range(2, peoplepresent+2):
+    for i in range(2, peoplepresent+1):
         if sheet.cell(row= row, column= i).value != None:
             answer += 1
-    return answer
+    return int(answer)
 
 def hourscounter():
     for i in range(2, peoplepresent+2):
         counterhour = 0
         for row in range(2, totalrows):
-            if sheet.cell(row=row, column = i).value != None:
+            if sheet.cell(row=row, column = i).value != None and sheet.cell(row=row, column = i).value != "F":
                 counterhour += 1
-        sheet.cell(row=hoursrow, column = i).value = counterhour*2
+        sheet.cell(row=hoursrow, column = i).value = counterhour
 
 def xinjiaolaojiaosystem():
     hoursranking = {}
@@ -215,6 +212,11 @@ def xinjiaolaojiaosystem():
     for i in range(len(team)-1):
         sheet.cell(row=1, column=columnorder[i]).value = team[i]
     return
+
+def add_flags():
+    for i in range(2,totalrows):
+        if sheet.cell(row=i, column = 1).value in ["1800","0600"]: #give flag to person who has duty next
+            print("Not Done, working on flag")
 
 
 
@@ -266,21 +268,22 @@ def colourthisrow(row,colour):
         cell = sheet[cellcoordinate]
         cell.fill = PatternFill(start_color=colour, end_color=colour, fill_type = "solid")
 
-#if heightened measure add gpmg and footprowl
-checkheightened = st.sidebar.checkbox("Heightened")
-def heightenedverifier():
-    if checkheightened:
-        #add GPMG and Foot Prowl
-        add_duty = ["GPMG","FP"]
-        
 
-heightenedverifier()
 
 #initialise duties
-
 non_peak = ["SSVC","SCBT","XCBT","XSVC"]
-peak = ["SSVC","SCBT","XCBT","XSVC","GPMG"] + add_duty
+peak = ["SSVC","SCBT","XCBT","XSVC"]
 silent = [e for e in non_peak if e not in ('XSVC', 'XCBT')]
+
+#if heightened measure add gpmg and footprowl
+checkheightened = st.sidebar.checkbox("Heightened")
+if checkheightened:
+    #add GPMG and Foot Prowl
+    add_duty = ["GPMG"]
+    peak.extend(add_duty)  
+    def add_prowls():
+        #find rows that are 0100, 0500, 1900, 2300hrs, check if they have duty above, then plot detailing
+        print("Not Done, working on flag")
 
 non_peak_hours = ["1100","1200","1300","1400","1500","1600","1700","1800","0700","0800","0900","1000"]
 peak_hours = ["0700","0800","1600","1700","1800"]
@@ -306,31 +309,30 @@ if status == "weekday":
         if (sheet.cell(row= i, column = 1).value in ["1900","2300","0300"]):
             colourthisrow(i,"808080")
             colourthisrow(i+1,"808080")
+            colourthisrow(i+2,"808080")
+            colourthisrow(i+3,"808080")
             for duty in silent:
                 assigning(i,duty)
-    sheet.cell(row=i, column= peoplepresent+2).value = countcellstoleft(i)
+        sheet.cell(row=i, column= peoplepresent+2).value = int(countcellstoleft(i))
 elif status == "weekend":
     for i in range(2, totalrows):
-        if (sheet.cell(row= i, column = 1).value in ["1100","1500"]): #if non_peak on normal hours
-            if i<=4 or i>=35:
+        if (sheet.cell(row= i, column = 1).value in ["0700","1100","1500"]): #if non_peak on normal hours
+            if i<=8 or i>=70:
                 for duty in non_peak:
                     assigning(i, duty)
                 #if cell is empty (leave, off, MA etc) then put into random
             else:
                 colourthisrow(i,"808080")
                 colourthisrow(i+1,"808080")
+                colourthisrow(i+2,"808080")
+                colourthisrow(i+3,"808080")
                 for duty in silent:
                     assigning(i,duty)
         if (sheet.cell(row= i, column = 1).value in ["0700"]):
-            if i>=35:
+            if i>=70:
                 colourthisrow(i,"ff0000")
                 for duty in peak:
                     assigningpeak(i,duty)
-            else:
-                colourthisrow(i,"808080")
-                colourthisrow(i+1,"808080")
-                for duty in silent:
-                    assigning(i,duty)
         if (sheet.cell(row= i, column = 1).value in ["1900","2300","0300"]):
             colourthisrow(i,"808080")
             colourthisrow(i+1,"808080")
@@ -338,24 +340,16 @@ elif status == "weekend":
             colourthisrow(i+3,"808080")
             for duty in silent:
                 assigning(i,duty)
-    sheet.cell(row=i, column= peoplepresent+2).value = countcellstoleft(i)
+        sheet.cell(row=i, column= peoplepresent+2).value = int(countcellstoleft(i))
 
 
 
 hourscounter()
 #xinjiaolaojiaosystem()
+add_prowls()
+add_flags()
 print("Done.")
 workbook.save(filename=storagelocation)
-
-st.button("Rerun")
-if st.button("Export this"):
-    st.write("Exporting...")
-    #function to assign excelfile to a variable, then provide download link for it.
-    df = pd.read_excel(storagelocation)
-    #Exporting/Downloading excel sheet
-    download_button_str = download_link(df, "Completed Detailing.xls", 'Click here to download Completed Detailing.csv', pickle_it=False)
-    st.markdown(download_button_str, unsafe_allow_html=True)
-
 
 
 ###
@@ -366,3 +360,14 @@ if True:
     st.dataframe(df.fillna(" "))
     
     #st.table(df.fillna(" "))
+
+
+st.button("Rerun")
+if st.button("Export this"):
+    st.write("Exporting...")
+    #function to assign excelfile to a variable, then provide download link for it.
+    df = pd.read_excel(storagelocation)
+    #Exporting/Downloading excel sheet
+    download_button_str = download_link(df, "Completed Detailing.xls", 'Click here to download Completed Detailing.csv', pickle_it=False)
+    st.markdown(download_button_str, unsafe_allow_html=True)
+
