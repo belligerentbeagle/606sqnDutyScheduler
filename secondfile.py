@@ -5,7 +5,7 @@ from openpyxl import Workbook
 workbook = Workbook()
 sheet = workbook.active
 sheet["A1"] = "TIME/NAME"
-storagelocation = "/Users/weiyushit/OneDrive/Github stuff/teststreamlit/test.xls" #change to "/home/ec2-user/teststreamlit/detailing.xlsx" for aws
+storagelocation = "/Users/weiyushit/OneDrive/Github stuff/teststreamlit/test.xls" #"/home/ec2-user/teststreamlit/detailing.xlsx" #for aws
 
 
 import base64
