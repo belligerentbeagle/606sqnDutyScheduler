@@ -1,5 +1,6 @@
 import streamlit as st
 
+
 from openpyxl import Workbook
 workbook = Workbook()
 sheet = workbook.active
@@ -108,7 +109,7 @@ platoon = st.sidebar.selectbox(
 
 
 if platoon == "Shift 1":
-    batch0 = ["DERRICK","KEI FUNG","DYLAN PANG","BRANSON LIM","ANDRE","tom","dick","harry"] 
+    batch0 = ["DERRICK","KEI FUNG","DYLAN PANG","BRANSON LIM","ANDRE"] 
     batch1 = ["SHAO CONG","WINSTON","AMOS","HAN TAT","MING SHENG","ZIHE","ZI KANG","BENJAMIN"]
     batch2 = [] 
     batch3 = []
@@ -117,7 +118,7 @@ if platoon == "Shift 1":
     batch5 = []
     stayout = []
 else:
-    batch0 = ["JOWELL","CLARENCE","tom","dick","harry"] 
+    batch0 = ["JOWELL","CLARENCE"] 
     batch1 = ["RAKESH","GAVIN","YONG CHENG","KOK CHUN","WEI HAN","BING HUI","CHEE SOON","YING HAO","YASHWIT","RYAN CHIANG","ALVIN SEAH",]
     batch2 = []
     batch3 = []
@@ -154,7 +155,7 @@ alphabets = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q"
 
 #initialise
 def assigning(row, duty):
-    randomperson = random.randint(2, peoplepresent) #+1 to this value
+    randomperson = random.randint(2, peoplepresent+1) #+1 to this value
     if row == 2 or (sheet.cell(row = row, column = randomperson).value == None and sheet.cell(row = row-2, column = randomperson).value == None):
         sheet.cell(row = row, column = randomperson).value = duty
         sheet.cell(row = row+1, column = randomperson).value = duty
@@ -164,7 +165,7 @@ def assigning(row, duty):
         assigning(row, duty)
 
 def assigningpeak(row, duty): #4hourblock 1 peak 1 non-peak
-    randomperson = random.randint(2, peoplepresent)
+    randomperson = random.randint(2, peoplepresent+1)
     if sheet.cell(row = row, column = randomperson).value == None and sheet.cell(row = row-1, column = randomperson).value == None and (duty != "GPMG"):
         sheet.cell(row = row, column = randomperson).value = duty
         sheet.cell(row = row+1, column = randomperson).value = duty
@@ -189,7 +190,7 @@ def assigningafterpeak(counter,duty):
 
 def countcellstoleft(row): #counter
     answer = 0
-    for i in range(2, peoplepresent+1):
+    for i in range(2, peoplepresent+2): #+2 cuz range skips the last one
         if sheet.cell(row= row, column= i).value != None:
             answer += 1
     return int(answer)
@@ -346,7 +347,7 @@ elif status == "weekend":
 
 hourscounter()
 #xinjiaolaojiaosystem()
-add_prowls()
+# add_prowls()
 add_flags()
 print("Done.")
 workbook.save(filename=storagelocation)
