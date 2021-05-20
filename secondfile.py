@@ -7,6 +7,7 @@ sheet = workbook.active
 sheet["A1"] = "TIME/NAME"
 storagelocation = "/Users/weiyushit/OneDrive/Github stuff/teststreamlit/test.xls" #change to "/home/ec2-user/teststreamlit/detailing.xlsx" for aws
 
+
 import base64
 import os
 import json
@@ -90,7 +91,6 @@ def download_link(object_to_download, download_filename, button_text, pickle_it=
     return dl_link
 
 
-st.text('This is some text.')
 st.subheader('This is a subheader')
 
 #defaults
@@ -106,6 +106,19 @@ platoon = st.sidebar.selectbox(
     "Mounting Shift",
     ("Shift 1","Shift 2"),
 )
+
+#recalled personnel:
+st.sidebar.subheader("Recalled Personnel")
+recalled1 = st.sidebar.text_input("Name 1")
+recalled2 = st.sidebar.text_input("Name 2")
+if recalled1 or recalled2:
+    recalled_personnel = ["placeholder"]
+    print(type(recalled_personnel))
+    recalled_personnel.append(recalled1)
+    recalled_personnel.append(recalled2)
+    recalled_personnel.remove("placeholder")
+else:
+    recalled_personnel = []
 
 
 if platoon == "Shift 1":
@@ -127,14 +140,14 @@ else:
     batch5 = []
     stayout = []
 
-team = batch0 + batch1 + batch2 + batch3 + batch4 + batch5 + stayout + ["COUNTER"]
+team = batch0 + batch1 + batch2 + batch3 + batch4 + batch5 + stayout + recalled_personnel + ["COUNTER"]
 present = [] 
 for name in team:
     if st.sidebar.checkbox(name,value=True):
         present.append(name) #present now contains "COUNTER"
 
 
-###
+##
 
 import random
 from openpyxl.styles import NamedStyle, Font, Border, Side, PatternFill, colors, Fill
@@ -364,6 +377,7 @@ if True:
 
 
 st.button("Rerun")
+
 if st.button("Export this"):
     st.write("Exporting...")
     #function to assign excelfile to a variable, then provide download link for it.
