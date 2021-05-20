@@ -109,12 +109,18 @@ platoon = st.sidebar.selectbox(
 
 #recalled personnel:
 st.sidebar.subheader("Recalled Personnel")
-recalled1 = st.sidebar.text_input("Name 1")
-recalled2 = st.sidebar.text_input("Name 2")
-if recalled1 or recalled2:
+recalled1 = st.sidebar.text_input("Name 1").upper()
+recalled2 = st.sidebar.text_input("Name 2").upper()
+if recalled1:
     recalled_personnel = ["placeholder"]
-    print(type(recalled_personnel))
     recalled_personnel.append(recalled1)
+    recalled_personnel.remove("placeholder")
+elif recalled2:
+    recalled_personnel = ["placeholder"]
+    recalled_personnel.append(recalled2)
+    recalled_personnel.remove("placeholder")
+elif recalled1 and recalled2:
+    recalled_personnel = ["placeholder"]
     recalled_personnel.append(recalled2)
     recalled_personnel.remove("placeholder")
 else:
