@@ -409,6 +409,7 @@ FUTURE IMPROVEMENTS
 2. Fix weekend planning
 3. Add indication of version
 4. Figure how to add timing for people who took off, mc, leave not for whole mount, and recalled personnel
+5. Auto-balancing of hours algorithm
 
 
 LONG TERM
