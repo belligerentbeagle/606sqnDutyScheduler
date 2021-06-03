@@ -5,7 +5,7 @@ from openpyxl import Workbook
 workbook = Workbook()
 sheet = workbook.active
 sheet["A1"] = "TIME/NAME"
-storagelocation = "/app/detailing.xls" #"/Users/weiyushit/OneDrive/Github stuff/teststreamlit/detailing.xls" #"/home/ec2-user/teststreamlit/detailing.xlsx" #for aws
+storagelocation = "/app/detailing.xls" #"/Users/weiyushit/OneDrive/Github stuff/teststreamlit/detailing.xls" #"/home/ec2-user/teststreamlit/detailing.xlsx" #for aws 
 
 from datetime import datetime
 now = datetime.now()
@@ -14,20 +14,8 @@ today = str(date.today())
 current_time = now.strftime("%H:%M:%S")
 import time
 st.header('Welcome to 606 CPC Detailing Planner')
-st.subheader("It is " + today + time)
+st.subheader("It is " + today + " " +  current_time + "hrs")
 
-##TODo
-'''
-1. Add flag function
-2. Fix weekend planning
-3. Add indication of version
-4. Figure how to add timing for people who took off, mc, leave not for whole mount, and recalled personnel
-
-
-A. make it easy to edit name list for future generations
-B. add duty posts
-(Consider creating another streamlit app to edit code of repo and deploy wow)
-'''
 
 
 import base64
@@ -413,3 +401,18 @@ if st.button("Export this"):
     download_button_str = download_link(df, "Completed Detailing.xls", 'Click here to download Completed Detailing.csv', pickle_it=False)
     st.markdown(download_button_str, unsafe_allow_html=True)
 
+##TODo
+'''
+
+FUTURE IMPROVEMENTS
+1. Add flag function
+2. Fix weekend planning
+3. Add indication of version
+4. Figure how to add timing for people who took off, mc, leave not for whole mount, and recalled personnel
+
+
+LONG TERM
+A. make it easy to edit name list for future generations
+B. add duty posts
+(Consider creating another streamlit app to edit code of repo and deploy wow)
+'''
