@@ -7,6 +7,28 @@ sheet = workbook.active
 sheet["A1"] = "TIME/NAME"
 storagelocation = "/app/detailing.xls" #"/Users/weiyushit/OneDrive/Github stuff/teststreamlit/detailing.xls" #"/home/ec2-user/teststreamlit/detailing.xlsx" #for aws
 
+from datetime import datetime
+now = datetime.now()
+from datetime import date
+today = date.today()
+current_time = now.strftime("%H:%M:%S")
+import time
+st.header('Welcome to 606 CPC Detailing Planner')
+st.subheader("It is " + today + time)
+
+##TODo
+'''
+1. Add flag function
+2. Fix weekend planning
+3. Add indication of version
+4. Figure how to add timing for people who took off, mc, leave not for whole mount, and recalled personnel
+
+
+A. make it easy to edit name list for future generations
+B. add duty posts
+(Consider creating another streamlit app to edit code of repo and deploy wow)
+'''
+
 
 import base64
 import os
@@ -90,9 +112,7 @@ def download_link(object_to_download, download_filename, button_text, pickle_it=
     dl_link = custom_css + f'<a download="{download_filename}" id="{button_id}" href="data:file/txt;base64,{b64}">{button_text}</a><br></br>'
     return dl_link
 
-import time
 
-st.subheader('Welcome:)')
 
 #defaults
 add_duty = []
