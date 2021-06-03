@@ -90,8 +90,9 @@ def download_link(object_to_download, download_filename, button_text, pickle_it=
     dl_link = custom_css + f'<a download="{download_filename}" id="{button_id}" href="data:file/txt;base64,{b64}">{button_text}</a><br></br>'
     return dl_link
 
+import time
 
-st.subheader('This is a subheader')
+st.subheader('Welcome:)')
 
 #defaults
 add_duty = []
