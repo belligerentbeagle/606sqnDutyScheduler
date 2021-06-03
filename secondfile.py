@@ -10,7 +10,7 @@ storagelocation = "/app/detailing.xls" #"/Users/weiyushit/OneDrive/Github stuff/
 from datetime import datetime
 now = datetime.now()
 from datetime import date
-today = date.today()
+today = str(date.today())
 current_time = now.strftime("%H:%M:%S")
 import time
 st.header('Welcome to 606 CPC Detailing Planner')
