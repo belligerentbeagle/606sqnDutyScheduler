@@ -158,7 +158,7 @@ for name in team:
     if st.sidebar.checkbox(name,value=True):
         present.append(name) #present now contains "COUNTER"
     elif st.sidebar.checkbox(name, value=False):
-        eg.append(name)
+        egornot.append(name)
 
 st.sidebar.subheader("EG")
 for name in egornot:
