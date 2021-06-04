@@ -6,6 +6,7 @@ workbook = Workbook()
 sheet = workbook.active
 sheet["A1"] = "TIME/NAME"
 storagelocation = "/app/detailing.xls" #"/Users/weiyushit/OneDrive/Github stuff/teststreamlit/detailing.xls" #"/home/ec2-user/teststreamlit/detailing.xlsx" #for aws 
+st.subheader("Updated 8pm 4th June")
 
 from datetime import datetime
 import time
