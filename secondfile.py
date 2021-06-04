@@ -8,11 +8,13 @@ sheet["A1"] = "TIME/NAME"
 storagelocation = "/app/detailing.xls" #"/Users/weiyushit/OneDrive/Github stuff/teststreamlit/detailing.xls" #"/home/ec2-user/teststreamlit/detailing.xlsx" #for aws 
 
 from datetime import datetime
-now = datetime.now()
-from datetime import date
-today = str(date.today())
-current_time = now.strftime("%H:%M:%S")
 import time
+from datetime import date
+import pytz
+tz = pytz.timezone('Asia/Singapore')
+now = datetime.now(tz)
+today = str(date.today(tz))
+current_time = now.strftime("%H:%M:%S")
 st.header('Welcome to 606 CPC Detailing Planner')
 st.subheader("It is " + today + " " +  current_time + "hrs")
 
