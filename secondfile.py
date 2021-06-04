@@ -150,13 +150,17 @@ else:
     stayout = []
 
 team = batch0 + batch1 + batch2 + batch3 + batch4 + batch5 + stayout + recalled_personnel + ["COUNTER"]
-present = [] 
+present = []
+eg = []
 for name in team:
     if st.sidebar.checkbox(name,value=True):
         present.append(name) #present now contains "COUNTER"
-    else:
-        st.sidebar.subheader("EG")
-        st.sidebar.checkbox(name)
+    elif st.sidebar.checkbox(name, value=False):
+        eg.append(name)
+        
+st.sidebar.subheader("EG")
+for name in eg:
+    st.sidebar.checkbox(name)
 
 
 ##
