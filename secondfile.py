@@ -161,7 +161,7 @@ for name in team:
         eg.append(name)
 
 st.sidebar.subheader("EG")
-for name in egorno:
+for name in egornot:
     if st.sidebar.checkbox(name,value=True):
         egpersonnel.append(name)
 
