@@ -351,11 +351,6 @@ elif status == "weekend":
                 colourthisrow(i+3,"808080")
                 for duty in silent:
                     assigning(i,duty)
-        if (sheet.cell(row= i, column = 1).value in ["0700"]):
-            if i>=70:
-                colourthisrow(i,"ff0000")
-                for duty in peak:
-                    assigningpeak(i,duty)
         if (sheet.cell(row= i, column = 1).value in ["1900","2300","0300"]):
             colourthisrow(i,"808080")
             colourthisrow(i+1,"808080")
