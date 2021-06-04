@@ -154,6 +154,9 @@ present = []
 for name in team:
     if st.sidebar.checkbox(name,value=True):
         present.append(name) #present now contains "COUNTER"
+    else:
+        st.sidebar.subheader("EG")
+        st.sidebar.checkbox(name)
 
 
 ##
