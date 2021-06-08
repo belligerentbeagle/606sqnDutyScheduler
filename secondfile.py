@@ -5,7 +5,7 @@ from openpyxl import Workbook
 workbook = Workbook()
 sheet = workbook.active
 sheet["A1"] = "TIME/NAME"
-storagelocation = "/app/detailing.xls" #"/Users/weiyushit/OneDrive/Github stuff/teststreamlit/detailing.xls" #"/home/ec2-user/teststreamlit/detailing.xlsx" #for aws 
+storagelocation = "/Users/weiyushit/OneDrive/Github stuff/teststreamlit/detailing.xls" #"/app/detailing.xls" #"/Users/weiyushit/OneDrive/Github stuff/teststreamlit/detailing.xls" #"/home/ec2-user/teststreamlit/detailing.xlsx" #for aws 
 st.subheader("Updated 8pm 4th June")
 
 from datetime import datetime
@@ -187,7 +187,40 @@ alphabets = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q"
 
 #initialise
 def assigning(row, duty):
-    randomperson = random.randint(2, peoplepresent+1) #+1 to this value
+
+    ##Creating Probability List at each duty assigning point.
+    hourslist = []
+    counthours = 0
+    probability_biased = []
+    for i in range(2,peoplepresent+2):
+        for x in range(2, totalrows+1):
+            if sheet.cell(row=x, column = i).value != None:
+                counthours += 1
+        hourslist.append(counthours)
+        counthours = 0
+    base = sum(hourslist)
+    if base != 0:
+        for hour in hourslist:
+            if hour != 0:
+                probability_biased.append(1/(hour))
+            else:
+                probability_biased.append(1)
+        print(hourslist)
+        print(sum(probability_biased))
+        print(probability_biased)
+        who = []
+        for peoplecounter in range(2,peoplepresent+2):
+            who.append(peoplecounter)
+        print(str(len(who)) + "and " + str(len(probability_biased)) + "and " + str(len(hourslist)))
+        randomperson = random.choices(who,weights=probability_biased,k=1)
+        randomperson = randomperson[0]
+        
+        print(randomperson)
+    else:
+        randomperson = random.randint(2, peoplepresent+2)
+        print("base is 0, randperson is " + str(randomperson))
+    
+
     if row == 2 or (sheet.cell(row = row, column = randomperson).value == None and sheet.cell(row = row-2, column = randomperson).value == None):
         sheet.cell(row = row, column = randomperson).value = duty
         sheet.cell(row = row+1, column = randomperson).value = duty
@@ -196,7 +229,10 @@ def assigning(row, duty):
     else:
         assigning(row, duty)
 
+# def biaseddutyassigner():
+
 def assigningpeak(row, duty): #4hourblock 1 peak 1 non-peak
+    #NEED TO ADD BIASED TO ASSIGNINGPEAK TOO
     randomperson = random.randint(2, peoplepresent+1)
     if sheet.cell(row = row, column = randomperson).value == None and sheet.cell(row = row-1, column = randomperson).value == None and (duty != "GPMG"):
         sheet.cell(row = row, column = randomperson).value = duty
@@ -275,14 +311,15 @@ for name in team:
     sheet.cell(row = 1, column = column).value = name
     column += 1
 
-def process_stayout_first():
-    stayoutcolumn = len(team)
-    for i in range(2, totalrows):
-        if status == "weekday" and (sheet.cell(row=i, column=1).value in ["1700-1900","1900-2100","2100-2300","2300-0100","0100-0300","0300-0500","0500-0700"]):
-            sheet.cell(row=i, column=stayoutcolumn).value = "STAYOUT"
-        if status == "weekend":
-            if i >= 5 and i <= totalrows-3:
-                sheet.cell(row=i, column=stayoutcolumn).value = "STAYOUT"
+
+# def process_stayout_first():
+#     stayoutcolumn = len(team)
+#     for i in range(2, totalrows):
+#         if status == "weekday" and (sheet.cell(row=i, column=1).value in ["1700-1900","1900-2100","2100-2300","2300-0100","0100-0300","0300-0500","0500-0700"]):
+#             sheet.cell(row=i, column=stayoutcolumn).value = "STAYOUT"
+#         if status == "weekend":
+#             if i >= 5 and i <= totalrows-3:
+#                 sheet.cell(row=i, column=stayoutcolumn).value = "STAYOUT"
 #process_stayout_first()
 
 # # # #def leaveandoffs(who,whichdays):
@@ -337,8 +374,8 @@ if status == "weekday":
             for duty in peak:
                 assigningpeak(i,duty)
             counter = 1 #function below for adding non-peak for 0900-1100
-            for duty in non_peak:
-                assigningafterpeak(counter,duty)
+            # for duty in non_peak:
+            #     assigningafterpeak(counter,duty)
         if (sheet.cell(row= i, column = 1).value in ["1900","2300","0300"]):
             colourthisrow(i,"808080")
             colourthisrow(i+1,"808080")
