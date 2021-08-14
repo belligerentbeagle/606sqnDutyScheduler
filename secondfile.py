@@ -6,7 +6,7 @@ workbook = Workbook()
 sheet = workbook.active
 sheet["A1"] = "TIME/NAME"
 storagelocation = "/app/detailing.xls" #"/Users/weiyushit/OneDrive/Github stuff/teststreamlit/detailing.xls" #"/home/ec2-user/teststreamlit/detailing.xlsx" #for aws 
-st.subheader("Updated 9pm 11th July")
+st.subheader("Updated 5pm 14th August")
 
 from datetime import datetime
 import time
@@ -144,7 +144,7 @@ def mainprogram():
         stayout = []
     else:
         batch0 = ["JOWELL","CLARENCE"] 
-        batch1 = ["RAKESH","GAVIN","YONG CHENG","KOK CHUN","WEI HAN","BING HUI","CHEE SOON","YING HAO","YASHWIT","RYAN CHIANG","ALVIN SEAH",]
+        batch1 = ["MALCOLM","GAVIN","YONG CHENG","MARK","OLIVER","DEXTER","PASSOFFICE","YING HAO","ALVIN SEAH",]
         batch2 = []
         batch3 = []
         acf = []#"YING HAO","YASHWIT","RYAN CHIANG","ALVIN SEAH",] #eg force
