@@ -134,7 +134,7 @@ def mainprogram():
 
 
     if platoon == "Shift 1":
-        batch0 = ["DERRICK","KEI FUNG","DYLAN PANG","BRANSON LIM","ANDRE"] 
+        batch0 = ["KEI FUNG","DYLAN PANG","BRANSON LIM","ANDRE"] 
         batch1 = ["SHAO CONG","WINSTON","AMOS","HAN TAT","MING SHENG","ZIHE","ZI KANG","BENJAMIN"]
         batch2 = [] 
         batch3 = []
@@ -162,10 +162,10 @@ def mainprogram():
         elif st.sidebar.checkbox(name, value=False):
             egornot.append(name)
 
-    st.sidebar.subheader("EG")
-    for name in egornot:
-        if st.sidebar.checkbox(name,value=True):
-            egpersonnel.append(name)
+    # st.sidebar.subheader("EG")
+    # for name in egornot:
+    #     if st.sidebar.checkbox(name,value=True):
+    #         egpersonnel.append(name)
 
 
     ##
