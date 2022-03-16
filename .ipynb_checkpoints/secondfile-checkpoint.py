@@ -6,7 +6,7 @@ workbook = Workbook()
 sheet = workbook.active
 sheet["A1"] = "TIME/NAME"
 storagelocation = "/app/detailing.xls" #"/Users/weiyushit/OneDrive/Github stuff/teststreamlit/detailing.xls" #"/home/ec2-user/teststreamlit/detailing.xlsx" #for aws 
-st.subheader("Updated 4pm 16 Mar '22 by Ethan Wei")
+st.subheader("Updated 5pm 14th August")
 
 from datetime import datetime
 import time
@@ -134,7 +134,7 @@ def mainprogram():
 
 
     if platoon == "Shift 1":
-        batch0 = ["NAME1","NAME2","NAME3","NAME4","KEI FUNG","DYLAN PANG","BRANSON LIM","ANDRE"] 
+        batch0 = ["KEI FUNG","DYLAN PANG","BRANSON LIM","ANDRE"] 
         batch1 = ["SHAO CONG","WINSTON","AMOS","HAN TAT","MING SHENG","ZIHE","ZI KANG","BENJAMIN"]
         batch2 = [] 
         batch3 = []
@@ -143,7 +143,7 @@ def mainprogram():
         batch5 = []
         stayout = []
     else:
-        batch0 = [["NAME1","NAME2","NAME3","NAME4","JOWELL","CLARENCE"] 
+        batch0 = ["JOWELL","CLARENCE"] 
         batch1 = ["MALCOLM","GAVIN","YONG CHENG","MARK","OLIVER","DEXTER","PASSOFFICE","YING HAO","ALVIN SEAH",]
         batch2 = []
         batch3 = []
@@ -292,7 +292,7 @@ def mainprogram():
 
     #set up time
     row = 2
-    timedefault = ["1300","1400","1500","1600","1700","1800","1900","2000","2100","2200","2300","0000","0100","0200","0300","0400","0500","0600","0700","0800","0900","1000","1100","1200"]
+    timedefault = ["1100","1200","1300","1400","1500","1600","1700","1800","1900","2000","2100","2200","2300","0000","0100","0200","0300","0400","0500","0600","0700","0800","0900","1000"]
     # timedefault = ["1100-1300", "1300-1500","1500-1700", "1700-1900","1900-2100", "2100-2300", "2300-0100","0100-0300", "0300-0500","0500-0700","0700-0900","0900-1100"]
     times = noofdays * timedefault
     for timeblock in times:
@@ -440,8 +440,6 @@ def mainprogram():
 
     ##TODo
     '''
-    IMPROVMENTS
-    1. 160322 - change timings to start at 1300 instead of 1100, added more names
 
     FUTURE IMPROVEMENTS
     1. Add flag function
