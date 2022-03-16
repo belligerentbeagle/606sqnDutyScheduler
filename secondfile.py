@@ -143,7 +143,7 @@ def mainprogram():
         batch5 = []
         stayout = []
     else:
-        batch0 = [["NAME1","NAME2","NAME3","NAME4","JOWELL","CLARENCE"] 
+        batch0 = ["NAME1","NAME2","NAME3","NAME4","JOWELL","CLARENCE"] 
         batch1 = ["MALCOLM","GAVIN","YONG CHENG","MARK","OLIVER","DEXTER","PASSOFFICE","YING HAO","ALVIN SEAH",]
         batch2 = []
         batch3 = []
