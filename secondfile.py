@@ -5,7 +5,8 @@ from openpyxl import Workbook
 workbook = Workbook()
 sheet = workbook.active
 sheet["A1"] = "TIME/NAME"
-storagelocation = "/app/detailing.xls" #"/Users/weiyushit/OneDrive/Github stuff/teststreamlit/detailing.xls" #"/home/ec2-user/teststreamlit/detailing.xlsx" #for aws 
+# storagelocation = "/app/detailing.xls" #"/Users/weiyushit/OneDrive/Github stuff/teststreamlit/detailing.xls" #"/home/ec2-user/teststreamlit/detailing.xlsx" #for aws 
+storagelocation = './detailing.xls'
 st.subheader("Updated 4pm 16 Mar '22 by Ethan Wei")
 
 from datetime import datetime
