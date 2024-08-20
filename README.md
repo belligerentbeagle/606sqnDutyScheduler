@@ -1,5 +1,5 @@
-# teststreamlit
-to allow clone onto aws server
+## 606 Squadron Guard Duty Scheduler
 
-## hosted on http://52.221.213.233:8501
-dont ddos pls >.<
+Saves ~7 hours/week and effort in scheduling guard duty for 606 Squadron soldiers!
+
+![schedulerUI.png](public/images/SchedulerUI.png)
